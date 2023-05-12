@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: API ICT
+  description: API documents 
+
+paths:
+  /api/v1/ict_statss:
+    x-router-controller: petsController
+    get:
+      description: Returns all ict_statss
+      operationId: getIct_statss
+      responses:
+        200:
+          description: Ict_stats list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ict_stats'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+ 
+  /api/v1/ict_statss/{year}:
+    x-router-controller: petsController
+    get:
+      description: Returns a single ict_stats by its year
+      operationId: findByyear
+      parameters:
+        - required: true
+          name: year
+          description: year of the ict_stats to fetch
+          in: path
+          schema:
+            type: number
+      responses:
+        200:
+          description: Ict_stats found by year
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ict_stats'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    ict_stats:
+        type: object
+        required:
+          - year
+        properties:
+          territory:
+            type: string
+          year:
+            type: number
+          ict_manufacturing_industry:
+            type: number
+          wholesale_trade:
+            type: number
+          edition_of_computer_program:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
